@@ -25,3 +25,33 @@ This is an implementation scaffold. It includes:
 It does **not** include benchmark results yet. Results must be generated from real open SSVEP datasets. No synthetic benchmark claims are made.
 
 ## Installation
+
+This project does not claim a new algorithm or state-of-the-art performance. It aims to provide a transparent deployment-readiness map for a standard SSVEP baseline.
+
+See:
+
+- `docs/method_note.md`
+- `docs/limitations.md`
+- `docs/reproducibility_checklist.md`
+- `docs/dataset_selection.md`
+
+## License
+
+MIT. See `LICENSE`.
+
+
+## What this benchmark will answer
+
+1. How much accuracy is lost when reducing channels from 8 to 1?
+2. Does FBCCA fail gradually or abruptly under low-channel constraints?
+3. Which subjects fail first?
+4. Does a longer window compensate for fewer channels?
+5. Are degradation patterns consistent across datasets?
+
+## Run from a config file
+
+```bash
+python scripts/run_wearability_benchmark.py --config configs/pilot_lee2019.yaml
+```
+
+## Current scientific warning
