@@ -1,4 +1,4 @@
-# Template only.
+# Template only. Verify each dataset's sfreq, labels, channel names, sessions/runs, and electrode metadata.
 datasets: [nakanishi2015, lee2019_ssvep, kalunga2016]
 dataset_type: moabb
 split: stratified_pilot
