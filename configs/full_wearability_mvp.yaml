@@ -1,3 +1,4 @@
+# Template only.
 datasets: [nakanishi2015, lee2019_ssvep, kalunga2016]
 dataset_type: moabb
 split: stratified_pilot
