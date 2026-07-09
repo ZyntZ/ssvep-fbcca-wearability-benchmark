@@ -1,0 +1,10 @@
+dataset: lee2019_ssvep
+dataset_type: moabb
+split: stratified_pilot
+windows: [1.0, 2.0, 3.0]
+channel_counts: [8, 6, 4, 2, 1]
+methods: [cca, fbcca]
+usable_threshold: 0.70
+max_failure_rate: 0.20
+channel_policy: occipital_first
+out: results/lee2019_pilot
