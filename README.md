@@ -22,9 +22,93 @@ The benchmark maps FBCCA degradation across:
 
 This is an implementation scaffold. It includes:
 
+- clean CCA and FBCCA implementations;
+- channel-ablation utilities;
+- window-sweep evaluation utilities;
+- deployment-oriented metrics;
+- reproducible command-line scripts;
+- documentation templates;
+- unit tests.
+
 It does **not** include benchmark results yet. Results must be generated from real open SSVEP datasets. No synthetic benchmark claims are made.
 
 ## Installation
+
+```bash
+git clone https://github.com/YOUR_USERNAME/ssvep-fbcca-wearability-benchmark.git
+cd ssvep-fbcca-wearability-benchmark
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+pip install -e .[dev]
+```
+
+For MOABB datasets:
+
+```bash
+pip install -e .[moabb]
+```
+
+## Minimal API example
+
+```python
+from ssvep_fbcca import CCAClassifier, FBCCAClassifier
+
+freqs = [8, 10, 12, 15]
+clf = FBCCAClassifier(
+    sfreq=250,
+    freqs=freqs,
+    n_harmonics=3,
+    filterbank=[(6, 14), (14, 22), (22, 30), (30, 38)],
+)
+
+clf.fit(X_train, y_train)
+y_pred = clf.predict(X_test)
+scores = clf.predict_scores(X_test)
+```
+
+Expected data shape is:
+
+```text
+X: (n_trials, n_channels, n_times)
+y: integer labels aligned to the `freqs` list
+```
+
+## Reproduce a benchmark run
+
+A dataset loader must return an array of epochs and labels. The default MOABB loader is implemented as a guarded optional dependency, because MOABB datasets and class names can change.
+
+```bash
+python scripts/run_wearability_benchmark.py \
+  --dataset lee2019_ssvep \
+  --windows 1 2 3 \
+  --channel-counts 8 6 4 2 1 \
+  --methods cca fbcca \
+  --out results/demo_run
+```
+
+Outputs:
+
+```text
+results/demo_run/per_subject_results.csv
+results/demo_run/window_channel_summary.csv
+results/demo_run/channel_window_heatmap.png
+results/demo_run/channel_degradation_curve.png
+results/demo_run/wearability_readiness_report.md
+```
+
+## Metrics
+
+The benchmark reports:
+
+- mean accuracy;
+- median subject accuracy;
+- worst-subject accuracy;
+- subject failure rate below a configurable usable threshold, default 70%;
+- usable-subject rate;
+- information transfer rate, when class count and trial timing assumptions are valid;
+- per-subject degradation relative to full-channel / longest-window condition.
+
+## Scientific scope
 
 This project does not claim a new algorithm or state-of-the-art performance. It aims to provide a transparent deployment-readiness map for a standard SSVEP baseline.
 
@@ -54,4 +138,7 @@ MIT. See `LICENSE`.
 python scripts/run_wearability_benchmark.py --config configs/pilot_lee2019.yaml
 ```
 
+
 ## Current scientific warning
+
+The repository can run as software, but scientific results require verified dataset-specific metadata: sampling frequency, channel names, stimulation frequencies, event timing, subject/session/run structure, and electrode regime. Do not report dry/wet comparisons unless the dataset source documents electrode type.
