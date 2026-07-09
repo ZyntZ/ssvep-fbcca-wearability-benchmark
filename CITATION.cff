@@ -3,8 +3,7 @@ title: "SSVEP-FBCCA Wearability Benchmark"
 message: "If you use this benchmark scaffold, please cite the repository release."
 type: software
 authors:
-  - family-names: Sokolova
-    given-names: Anna
+    given-names: ZyntZ
 version: 0.1.0
 license: MIT
 repository-code: "https://github.com/YOUR_USERNAME/ssvep-fbcca-wearability-benchmark"
