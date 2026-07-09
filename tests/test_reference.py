@@ -1,4 +1,3 @@
-import numpy as np
 from ssvep_fbcca.reference import make_reference_signals
 
 
